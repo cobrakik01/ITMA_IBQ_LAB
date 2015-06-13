@@ -22,24 +22,24 @@
                         <p:menuitem url="/" value="Principal"/>
 
                         <p:submenu label="Alumnos" icon="ui-icon-pencil">
-                            <p:menuitem url="/faces/admin/alumno/List" value="Nuevo"  icon="ui-icon-arrowreturnthick-1-w" />
+                            <p:menuitem url="/faces/admin/alumno/List.xhtml" value="Nuevo"  icon="ui-icon-arrowreturnthick-1-w" />
                             <p:menuitem value="Ver Pretamos" url="#" icon="ui-icon-arrowreturnthick-1-e" />
                         </p:submenu>
 
                         <p:submenu label="ITMA" icon="ui-icon-help">
                             <p:menuitem url="/faces/admin/carrera/List.xhtml" value="Carreras"/>
-                            <p:menuitem value="Materias"/>
-                            <p:menuitem value="Profesores"/>
+                            <p:menuitem url="/faces/admin/material/List.xhtml" value="Material"/>
+                            <p:menuitem url="/faces/admin/profesor/List.xhtml" value="Profesores"/>
                         </p:submenu>
 
                         <p:submenu label="Materiales" icon="ui-icon-gear">
-                            <p:menuitem value="Unidades"  icon="ui-icon-close" />
-                            <p:menuitem value="Tipos de Materiales"  icon="ui-icon-close" />
-                            <p:menuitem value="Bloques"  icon="ui-icon-close" />
+                            <p:menuitem url="/faces/admin/unidadMedida/List.xhtml" value="Unidades"  icon="ui-icon-close" />
+                            <p:menuitem url="/faces/admin/tipoMaterial/List.xhtml" value="Tipos de Materiales"  icon="ui-icon-close" />
+                            <p:menuitem url="/faces/admin/bloque/List.xhtml" value="Bloques"  icon="ui-icon-close" />
                         </p:submenu>
 
                         <p:submenu label="Inventario" icon="ui-icon-gear">
-                            <p:menuitem value="Periodos"  icon="ui-icon-close" />
+                            <p:menuitem url="/faces/admin/periodo/List.xhtml" value="Periodos"  icon="ui-icon-close" />
                         </p:submenu>
 
                     </p:menubar>
