@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioCreateDlg" widgetVar="UsuarioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateUsuarioTitle}">
+            <h:form id="UsuarioCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{usuarioController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_alumnoNoControl}" for="alumnoNoControl" />
+                        <p:inputText id="alumnoNoControl" value="#{usuarioController.selected.alumnoNoControl}" title="#{bundle.CreateUsuarioTitle_alumnoNoControl}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_alumnoNoControl}"/>
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_password}" for="password" />
+                        <p:inputText id="password" value="#{usuarioController.selected.password}" title="#{bundle.CreateUsuarioTitle_password}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_password}"/>
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_createdAt}" for="createdAt" />
+                        <p:calendar id="createdAt" pattern="MM/dd/yyyy HH:mm:ss" value="#{usuarioController.selected.createdAt}" title="#{bundle.EditUsuarioTitle_createdAt}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_createdAt}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_updatedAt}" for="updatedAt" />
+                        <p:calendar id="updatedAt" pattern="MM/dd/yyyy HH:mm:ss" value="#{usuarioController.selected.updatedAt}" title="#{bundle.EditUsuarioTitle_updatedAt}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_updatedAt}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_alumno}" for="alumno" />
+                        <p:selectOneMenu id="alumno" value="#{usuarioController.selected.alumno}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_alumno}">
+                            <f:selectItems value="#{alumnoController.itemsAvailableSelectOne}"
+                                           var="alumnoItem"
+                                           itemValue="#{alumnoItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{usuarioController.create}" value="#{bundle.Save}" update="display,:UsuarioListForm:datalist,:growl" oncomplete="handleSubmit(args,'UsuarioCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="UsuarioCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

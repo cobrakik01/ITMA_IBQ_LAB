@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BloqueEditDlg" widgetVar="BloqueEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditBloqueTitle}">
+            <h:form id="BloqueEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{bloqueController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditBloqueLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{bloqueController.selected.id}" title="#{bundle.EditBloqueTitle_id}" required="true" requiredMessage="#{bundle.EditBloqueRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditBloqueLabel_nombreBloque}" for="nombreBloque" />
+                        <p:inputText id="nombreBloque" value="#{bloqueController.selected.nombreBloque}" title="#{bundle.EditBloqueTitle_nombreBloque}" required="true" requiredMessage="#{bundle.EditBloqueRequiredMessage_nombreBloque}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{bloqueController.update}" value="#{bundle.Save}" update="display,:BloqueListForm:datalist,:growl" oncomplete="handleSubmit(args, 'BloqueEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="BloqueEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

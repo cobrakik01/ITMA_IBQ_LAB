@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PrestamoViewDlg" widgetVar="PrestamoViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewPrestamoTitle}">
+            <h:form id="PrestamoViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{prestamoController.selected != null}">
+                        <h:outputText value="#{bundle.ViewPrestamoLabel_id}"/>
+                        <h:outputText value="#{prestamoController.selected.id}" title="#{bundle.ViewPrestamoTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewPrestamoLabel_fechaPrestamo}"/>
+                        <h:outputText value="#{prestamoController.selected.fechaPrestamo}" title="#{bundle.ViewPrestamoTitle_fechaPrestamo}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewPrestamoLabel_fechaDevolucion}"/>
+                        <h:outputText value="#{prestamoController.selected.fechaDevolucion}" title="#{bundle.ViewPrestamoTitle_fechaDevolucion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewPrestamoLabel_fechaDevolucionReal}"/>
+                        <h:outputText value="#{prestamoController.selected.fechaDevolucionReal}" title="#{bundle.ViewPrestamoTitle_fechaDevolucionReal}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewPrestamoLabel_observacionesPrestamo}"/>
+                        <h:outputText value="#{prestamoController.selected.observacionesPrestamo}" title="#{bundle.ViewPrestamoTitle_observacionesPrestamo}"/>
+                        <h:outputText value="#{bundle.ViewPrestamoLabel_observacionesDevolucion}"/>
+                        <h:outputText value="#{prestamoController.selected.observacionesDevolucion}" title="#{bundle.ViewPrestamoTitle_observacionesDevolucion}"/>
+                        <h:outputText value="#{bundle.ViewPrestamoLabel_alumnoNoControl}"/>
+                        <h:outputText value="#{prestamoController.selected.alumnoNoControl}" title="#{bundle.ViewPrestamoTitle_alumnoNoControl}"/>
+                        <h:outputText value="#{bundle.ViewPrestamoLabel_profesorId}"/>
+                        <h:outputText value="#{prestamoController.selected.profesorId}" title="#{bundle.ViewPrestamoTitle_profesorId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PrestamoViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

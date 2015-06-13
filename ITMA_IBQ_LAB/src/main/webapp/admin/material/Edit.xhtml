@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MaterialEditDlg" widgetVar="MaterialEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditMaterialTitle}">
+            <h:form id="MaterialEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{materialController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditMaterialLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{materialController.selected.id}" title="#{bundle.EditMaterialTitle_id}" required="true" requiredMessage="#{bundle.EditMaterialRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditMaterialLabel_uriImagen}" for="uriImagen" />
+                        <p:inputText id="uriImagen" value="#{materialController.selected.uriImagen}" title="#{bundle.EditMaterialTitle_uriImagen}" />
+                        <p:outputLabel value="#{bundle.EditMaterialLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{materialController.selected.nombre}" title="#{bundle.EditMaterialTitle_nombre}" required="true" requiredMessage="#{bundle.EditMaterialRequiredMessage_nombre}"/>
+                        <p:outputLabel value="#{bundle.EditMaterialLabel_cantidadMinima}" for="cantidadMinima" />
+                        <p:inputText id="cantidadMinima" value="#{materialController.selected.cantidadMinima}" title="#{bundle.EditMaterialTitle_cantidadMinima}" required="true" requiredMessage="#{bundle.EditMaterialRequiredMessage_cantidadMinima}"/>
+                        <p:outputLabel value="#{bundle.EditMaterialLabel_cantidadDisponible}" for="cantidadDisponible" />
+                        <p:inputText id="cantidadDisponible" value="#{materialController.selected.cantidadDisponible}" title="#{bundle.EditMaterialTitle_cantidadDisponible}" required="true" requiredMessage="#{bundle.EditMaterialRequiredMessage_cantidadDisponible}"/>
+                        <p:outputLabel value="#{bundle.EditMaterialLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{materialController.selected.descripcion}" title="#{bundle.EditMaterialTitle_descripcion}" />
+                        <p:outputLabel value="#{bundle.EditMaterialLabel_createdAt}" for="createdAt" />
+                        <p:calendar id="createdAt" pattern="MM/dd/yyyy HH:mm:ss" value="#{materialController.selected.createdAt}" title="#{bundle.EditMaterialTitle_createdAt}" required="true" requiredMessage="#{bundle.EditMaterialRequiredMessage_createdAt}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditMaterialLabel_updatedAt}" for="updatedAt" />
+                        <p:calendar id="updatedAt" pattern="MM/dd/yyyy HH:mm:ss" value="#{materialController.selected.updatedAt}" title="#{bundle.EditMaterialTitle_updatedAt}" required="true" requiredMessage="#{bundle.EditMaterialRequiredMessage_updatedAt}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditMaterialLabel_tiposMaterialesId}" for="tiposMaterialesId" />
+                        <p:selectOneMenu id="tiposMaterialesId" value="#{materialController.selected.tiposMaterialesId}" required="true" requiredMessage="#{bundle.EditMaterialRequiredMessage_tiposMaterialesId}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoMaterialController.itemsAvailableSelectOne}"
+                                           var="tiposMaterialesIdItem"
+                                           itemValue="#{tiposMaterialesIdItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditMaterialLabel_bloqueId}" for="bloqueId" />
+                        <p:selectOneMenu id="bloqueId" value="#{materialController.selected.bloqueId}" required="true" requiredMessage="#{bundle.EditMaterialRequiredMessage_bloqueId}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{bloqueController.itemsAvailableSelectOne}"
+                                           var="bloqueIdItem"
+                                           itemValue="#{bloqueIdItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{materialController.update}" value="#{bundle.Save}" update="display,:MaterialListForm:datalist,:growl" oncomplete="handleSubmit(args, 'MaterialEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="MaterialEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

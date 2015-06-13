@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MaterialViewDlg" widgetVar="MaterialViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewMaterialTitle}">
+            <h:form id="MaterialViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{materialController.selected != null}">
+                        <h:outputText value="#{bundle.ViewMaterialLabel_id}"/>
+                        <h:outputText value="#{materialController.selected.id}" title="#{bundle.ViewMaterialTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewMaterialLabel_uriImagen}"/>
+                        <h:outputText value="#{materialController.selected.uriImagen}" title="#{bundle.ViewMaterialTitle_uriImagen}"/>
+                        <h:outputText value="#{bundle.ViewMaterialLabel_nombre}"/>
+                        <h:outputText value="#{materialController.selected.nombre}" title="#{bundle.ViewMaterialTitle_nombre}"/>
+                        <h:outputText value="#{bundle.ViewMaterialLabel_cantidadMinima}"/>
+                        <h:outputText value="#{materialController.selected.cantidadMinima}" title="#{bundle.ViewMaterialTitle_cantidadMinima}"/>
+                        <h:outputText value="#{bundle.ViewMaterialLabel_cantidadDisponible}"/>
+                        <h:outputText value="#{materialController.selected.cantidadDisponible}" title="#{bundle.ViewMaterialTitle_cantidadDisponible}"/>
+                        <h:outputText value="#{bundle.ViewMaterialLabel_descripcion}"/>
+                        <h:outputText value="#{materialController.selected.descripcion}" title="#{bundle.ViewMaterialTitle_descripcion}"/>
+                        <h:outputText value="#{bundle.ViewMaterialLabel_createdAt}"/>
+                        <h:outputText value="#{materialController.selected.createdAt}" title="#{bundle.ViewMaterialTitle_createdAt}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewMaterialLabel_updatedAt}"/>
+                        <h:outputText value="#{materialController.selected.updatedAt}" title="#{bundle.ViewMaterialTitle_updatedAt}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewMaterialLabel_tiposMaterialesId}"/>
+                        <h:outputText value="#{materialController.selected.tiposMaterialesId}" title="#{bundle.ViewMaterialTitle_tiposMaterialesId}"/>
+                        <h:outputText value="#{bundle.ViewMaterialLabel_bloqueId}"/>
+                        <h:outputText value="#{materialController.selected.bloqueId}" title="#{bundle.ViewMaterialTitle_bloqueId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="MaterialViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
