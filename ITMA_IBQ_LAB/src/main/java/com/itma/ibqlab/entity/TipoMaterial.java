@@ -126,7 +126,7 @@ public class TipoMaterial implements Serializable {
 
     @Override
     public String toString() {
-        return "com.itma.ibqlab.entity.TipoMaterial[ id=" + id + " ]";
+        return this.getNombreMateria();
     }
     
 }

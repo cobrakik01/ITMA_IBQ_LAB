@@ -109,7 +109,7 @@ public class Carrera implements Serializable {
 
     @Override
     public String toString() {
-        return "com.itma.ibqlab.entity.Carrera[ id=" + id + " ]";
-    }
+        return this.getNombreCarrera();
+     }
     
 }

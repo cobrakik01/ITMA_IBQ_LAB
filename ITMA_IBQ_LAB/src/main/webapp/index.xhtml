@@ -1,14 +1,49 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Facelet Title</title>
         <h:outputStylesheet name="css/jsfcrud.css"/>
     </h:head>
     <h:body>
-        Hello from Facelets
-        <br />
+
+        <h:form>  
+            <p:growl id="messages"/>
+
+            <p:menubar>
+                <p:submenu label="Principal" icon="ui-icon-document">
+                    <p:menuitem value="Principal" url="#" />
+                </p:submenu>
+
+                <p:submenu label="Alumnos" icon="ui-icon-pencil">
+
+                    <p:menuitem action="/admin/alumno/List" actionListener="#{buttonBean.save}" value="Nuevo"  icon="ui-icon-arrowreturnthick-1-w" />
+                    <p:menuitem value="Ver Pretamos" url="#" icon="ui-icon-arrowreturnthick-1-e" />
+                </p:submenu>
+
+                <p:submenu label="ITMA" icon="ui-icon-help">
+                    <p:menuitem value="Carreras" action="/admin/carrera/List" actionListener="#{buttonBean.save}" />
+                    <p:menuitem value="Materias" action="" actionListener="#{buttonBean.save}" />
+                    <p:menuitem value="Profesores" action="#" actionListener="#{buttonBean.save}" />
+
+                </p:submenu>
+
+                <p:submenu label="Materiales" icon="ui-icon-gear">
+                    <p:menuitem value="Unidades"  icon="ui-icon-close" />
+                    <p:menuitem value="Tipos de Materiales"  icon="ui-icon-close" />
+                    <p:menuitem value="Bloques"  icon="ui-icon-close" />
+                </p:submenu>
+
+                <p:submenu label="Inventario" icon="ui-icon-gear">
+                    <p:menuitem value="Periodos"  icon="ui-icon-close" />
+                </p:submenu>
+
+            </p:menubar>
+        </h:form>
+  <!--      <br />
         <h:link outcome="welcomePrimefaces" value="Primefaces welcome page" />
         <br />
         <h:link outcome="/admin/alumno/List" value="Show All Alumno Items"/>
@@ -32,17 +67,151 @@
         <h:link outcome="/admin/unidadMedida/List" value="Show All UnidadMedida Items"/>
         <br />
         <h:link outcome="/admin/usuario/List" value="Show All Usuario Items"/>
+-->
+        <h:form>
+            <p:growl id="msgs" showDetail="true" />
+
+            <p:panel id="basic" header="Prestamos" footer="Movie Details" style="margin-bottom:20px">
+                <h:panelGrid columns="2" cellpadding="10">
+                    <f:view>
+
+
+                        <h:form>
+                            <h1><h:outputText value="Alumnos"/></h1>
+                            <p:dataTable paginator="true" rows="5" value="#{alumnoController.items}" var="item">
+
+                                <p:column filterBy="#{item.noControl}">
+                                    <f:facet name="header">
+                                        <h:outputText value="NoControl"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.noControl}"/>
+                                </p:column>
+                                <p:column filterBy="#{item.nombre}">
+                                    <f:facet name="header">
+                                        <h:outputText value="Nombre" />
+                                    </f:facet>
+                                    <h:outputText value="#{item.nombre}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="ApellidoPaterno"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.apellidoPaterno}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="ApellidoMaterno"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.apellidoMaterno}"/>
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="CarreraId"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.carreraId.nombreCarrera}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Seleccionar"/>
+                                    </f:facet>
+                                    <p:commandButton value="Seleccionar"></p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </f:view>
+
+                </h:panelGrid>
+                <h:panelGrid columns="2" cellpadding="10">
+
+                    <p:panel id="basic2" header="Material" footer="Movie Details" style="margin-bottom:20px">
+                        <f:view>
+
+
+                            <h:form>
+                                <h1><h:outputText value="Lista de Material"/></h1>
+                                <p:dataTable paginator="true" rows="5" value="#{materialController.items}" var="item">
+
+                                    <p:column filterBy="#{item.nombre}">
+                                        <f:facet name="header">
+                                            <h:outputText value="Nombre"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.nombre}"/>
+                                    </p:column>
+
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="CantidadDisponible"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.cantidadDisponible}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Descripcion"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.descripcion}"/>
+                                    </p:column>
+
+                                    <p:column filterBy="#{item.tiposMaterialesId.nombreMateria}">
+                                        <f:facet name="header">
+                                            <h:outputText value="TiposMaterialesId"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.tiposMaterialesId.nombreMateria}"/>
+                                    </p:column>
+                                    <p:column filterBy="#{item.bloqueId.nombreBloque}">
+                                        <f:facet name="header">
+                                            <h:outputText value="BloqueId"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.bloqueId.nombreBloque}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Seleccionar"/>
+                                        </f:facet>
+                                        <p:commandButton value="Seleccionar"></p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+                            </h:form>
+                        </f:view>
+
+                    </p:panel>
+                </h:panelGrid>
+            </p:panel>
+            <p:panel header="Detalles del Prestamo" footer="Movie Details" style="margin-bottom:20px">
+                <h:panelGrid columns="3" cellpadding="10">
+                    <p:panel id="basic1" header="Datos del Alumno" footer="Movie Details" style="margin-bottom:20px">
+                        <f:view>
+
+
+                            <h:form>
+                                <p:panelGrid columns="2">
+                                    <p:outputLabel value="NoControl:" for="noControl" />
+                                    <p:inputText id="noControl" value="#{alumnoController.selected.noControl}" title="NoControl" required="true" requiredMessage="The NoControl field is required."/>
+                                    <p:outputLabel value="Nombre:" for="nombre" />
+                                    <p:inputText id="nombre" value="#{alumnoController.selected.nombre}" title="Nombre" required="true" requiredMessage="The Nombre field is required."/>
+                                    <p:outputLabel value="ApellidoPaterno:" for="apellidoPaterno" />
+                                    <p:inputText id="apellidoPaterno" value="#{alumnoController.selected.apellidoPaterno}" title="ApellidoPaterno" required="true" requiredMessage="The ApellidoPaterno field is required."/>
+                                    <p:outputLabel value="ApellidoMaterno:" for="apellidoMaterno" />
+                                    <p:inputText id="apellidoMaterno" value="#{alumnoController.selected.apellidoMaterno}" title="ApellidoMaterno" required="true" requiredMessage="The ApellidoMaterno field is required."/>
+
+
+                                </p:panelGrid>
+                            </h:form>
+                        </f:view>
+
+                    </p:panel>
+                    <p:panel id="basic3" header="Materiales a Prestar" footer="Movie Details" style="margin-bottom:20px">
+
+                    </p:panel>
+                    <p:commandLink action="#">
+                        <h:graphicImage name="/img/save-96px.png" />
+                    </p:commandLink>
+                </h:panelGrid>
+
+            </p:panel>
+        </h:form>
+
     </h:body>
-
-
-
-
-
-
-
-
-
-
 
 </html>
 

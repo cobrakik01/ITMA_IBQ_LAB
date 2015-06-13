@@ -109,7 +109,7 @@ public class Bloque implements Serializable {
 
     @Override
     public String toString() {
-        return "com.itma.ibqlab.entity.Bloque[ id=" + id + " ]";
+        return this.getNombreBloque();
     }
     
 }
