@@ -16,16 +16,17 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class PrestamoFacade extends AbstractFacade<Prestamo> {
+
     @PersistenceContext(unitName = "com.itma_ITMA_IBQ_LAB_war_1.0PU")
     private EntityManager em;
 
     @Override
-    protected EntityManager getEntityManager() {
+    public EntityManager getEntityManager() {
         return em;
     }
 
     public PrestamoFacade() {
         super(Prestamo.class);
     }
-    
+
 }
