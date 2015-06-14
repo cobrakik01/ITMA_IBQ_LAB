@@ -9,147 +9,163 @@
     <ui:composition template="/template.xhtml">
 
         <ui:define name="body">
-            <h:form>
+            <h:form id="formAlumnos">
                 <p:growl id="msgs" showDetail="true" />
+                <h1>Prestamos</h1>
 
-                <p:panel id="basic" header="Prestamos" footer="Movie Details" style="margin-bottom:20px">
-                    <h:panelGrid columns="2" cellpadding="10">
-                        <f:view>
+                <p:panelGrid columns="2">
+                    <p:dataTable 
+                        paginator="true" 
+                        rows="5" 
+                        value="#{homeController.listaAlumnos}" 
+                        selectionMode="single"
+                        var="item"
+                        selection="#{homeController.alumnoSeleccionado}"
+                        rowKey="#{item.noControl}">
 
+                        <f:facet name="header">
+                            Lista de Alumnos
+                        </f:facet>
 
-                            <h:form>
-                                <h1><h:outputText value="Alumnos"/></h1>
-                                <p:dataTable paginator="true" rows="5" value="#{homeController.listaAlumnos}" var="item">
+                        <p:ajax event="rowSelect" listener="#{homeController.onRowSelectAlumnos}" update=":formAlumnos:msgs, :formAlumnos:panelDetallesAlumno" />
 
-                                    <p:column filterBy="#{item.noControl}">
-                                        <f:facet name="header">
-                                            <h:outputText value="NoControl"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.noControl}"/>
-                                    </p:column>
-                                    <p:column filterBy="#{item.nombre}">
-                                        <f:facet name="header">
-                                            <h:outputText value="Nombre" />
-                                        </f:facet>
-                                        <h:outputText value="#{item.nombre}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="ApellidoPaterno"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.apellidoPaterno}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="ApellidoMaterno"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.apellidoMaterno}"/>
-                                    </p:column>
+                        <p:column filterBy="#{item.noControl}">
+                            <f:facet name="header">
+                                <h:outputText value="NoControl"/>
+                            </f:facet>
+                            <h:outputText value="#{item.noControl}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.nombre}">
+                            <f:facet name="header">
+                                <h:outputText value="Nombre" />
+                            </f:facet>
+                            <h:outputText value="#{item.nombre}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="ApellidoPaterno"/>
+                            </f:facet>
+                            <h:outputText value="#{item.apellidoPaterno}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="ApellidoMaterno"/>
+                            </f:facet>
+                            <h:outputText value="#{item.apellidoMaterno}"/>
+                        </p:column>
 
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="CarreraId"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.carreraId.nombreCarrera}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="Seleccionar"/>
-                                        </f:facet>
-                                        <p:commandButton value="Seleccionar"></p:commandButton>
-                                    </p:column>
-                                </p:dataTable>
-                            </h:form>
-                        </f:view>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="CarreraId"/>
+                            </f:facet>
+                            <h:outputText value="#{item.carreraId.nombreCarrera}"/>
+                        </p:column>
+                    </p:dataTable>
+                    <p:panel id="panelDetallesAlumno" header="Datos del Alumno" style="margin-bottom:20px">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="NoControl:" for="noControl" />
+                            <p:inputText id="noControl" value="#{homeController.alumnoSeleccionado.noControl}" title="NoControl" required="true" requiredMessage="The NoControl field is required."/>
+                            <p:outputLabel value="Nombre:" for="nombre" />
+                            <p:inputText id="nombre" value="#{homeController.alumnoSeleccionado.nombre}" title="Nombre" required="true" requiredMessage="The Nombre field is required."/>
+                            <p:outputLabel value="ApellidoPaterno:" for="apellidoPaterno" />
+                            <p:inputText id="apellidoPaterno" value="#{homeController.alumnoSeleccionado.apellidoPaterno}" title="ApellidoPaterno" required="true" requiredMessage="The ApellidoPaterno field is required."/>
+                            <p:outputLabel value="ApellidoMaterno:" for="apellidoMaterno" />
+                            <p:inputText id="apellidoMaterno" value="#{homeController.alumnoSeleccionado.apellidoMaterno}" title="ApellidoMaterno" required="true" requiredMessage="The ApellidoMaterno field is required."/>
+                        </p:panelGrid>
+                    </p:panel>
 
-                    </h:panelGrid>
-                    <h:panelGrid columns="2" cellpadding="10">
+                    <p:dataTable 
+                        id="tblListaMaterial"
+                        paginator="true" 
+                        rows="5" 
+                        value="#{homeController.listaMaterial}"
+                        selectionMode="single"
+                        var="item"
+                        selection="#{homeController.materialSeleccionado}"
+                        rowKey="#{item.id}">
 
-                        <p:panel id="basic2" header="Material" footer="Movie Details" style="margin-bottom:20px">
-                            <f:view>
+                        <f:facet name="header">
+                            Lista de materiales disponibles
+                        </f:facet>
+                        <p:ajax event="rowSelect" update=":formAlumnos:tblListaMaterial" listener="#{homeController.onRowSelectMaterial}" />
+                        <p:column filterBy="#{item.nombre}">
+                            <f:facet name="header">
+                                <h:outputText value="Nombre"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nombre}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="CantidadDisponible"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cantidadDisponible}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Descripcion"/>
+                            </f:facet>
+                            <h:outputText value="#{item.descripcion}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.tiposMaterialesId.nombreMateria}">
+                            <f:facet name="header">
+                                <h:outputText value="TiposMaterialesId"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tiposMaterialesId.nombreMateria}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.bloqueId.nombreBloque}">
+                            <f:facet name="header">
+                                <h:outputText value="BloqueId"/>
+                            </f:facet>
+                            <h:outputText value="#{item.bloqueId.nombreBloque}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Seleccionar"/>
+                            </f:facet>
 
+                            <p:inputText value="#{homeController.cantidadMaterial}">
+                                <p:ajax event="keyup" update="out" listener="#{homeController.handleKeyEventCantidadMaterial}" />
+                            </p:inputText>
+                            <h:outputText id="out" value="#{homeController.cantidadMaterial}" />
+                            <p:commandButton update=":formAlumnos:tblMaterialSeleccionado, :formAlumnos:msgs" ajax="true" actionListener="#{homeController.agregarMaterial}" value="Agregar" />
+                        </p:column>
+                    </p:dataTable>
 
-                                <h:form>
-                                    <h1><h:outputText value="Lista de Material"/></h1>
-                                    <p:dataTable paginator="true" rows="5" value="#{materialController.items}" var="item">
-
-                                        <p:column filterBy="#{item.nombre}">
-                                            <f:facet name="header">
-                                                <h:outputText value="Nombre"/>
-                                            </f:facet>
-                                            <h:outputText value="#{item.nombre}"/>
-                                        </p:column>
-
-                                        <p:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="CantidadDisponible"/>
-                                            </f:facet>
-                                            <h:outputText value="#{item.cantidadDisponible}"/>
-                                        </p:column>
-                                        <p:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="Descripcion"/>
-                                            </f:facet>
-                                            <h:outputText value="#{item.descripcion}"/>
-                                        </p:column>
-
-                                        <p:column filterBy="#{item.tiposMaterialesId.nombreMateria}">
-                                            <f:facet name="header">
-                                                <h:outputText value="TiposMaterialesId"/>
-                                            </f:facet>
-                                            <h:outputText value="#{item.tiposMaterialesId.nombreMateria}"/>
-                                        </p:column>
-                                        <p:column filterBy="#{item.bloqueId.nombreBloque}">
-                                            <f:facet name="header">
-                                                <h:outputText value="BloqueId"/>
-                                            </f:facet>
-                                            <h:outputText value="#{item.bloqueId.nombreBloque}"/>
-                                        </p:column>
-                                        <p:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="Seleccionar"/>
-                                            </f:facet>
-                                            <p:commandButton value="Seleccionar"></p:commandButton>
-                                        </p:column>
-                                    </p:dataTable>
-                                </h:form>
-                            </f:view>
-
-                        </p:panel>
-                    </h:panelGrid>
-                </p:panel>
-                <p:panel header="Detalles del Prestamo" footer="Movie Details" style="margin-bottom:20px">
-                    <h:panelGrid columns="3" cellpadding="10">
-                        <p:panel id="basic1" header="Datos del Alumno" footer="Movie Details" style="margin-bottom:20px">
-                            <f:view>
-
-
-                                <h:form>
-                                    <p:panelGrid columns="2">
-                                        <p:outputLabel value="NoControl:" for="noControl" />
-                                        <p:inputText id="noControl" value="#{alumnoController.selected.noControl}" title="NoControl" required="true" requiredMessage="The NoControl field is required."/>
-                                        <p:outputLabel value="Nombre:" for="nombre" />
-                                        <p:inputText id="nombre" value="#{alumnoController.selected.nombre}" title="Nombre" required="true" requiredMessage="The Nombre field is required."/>
-                                        <p:outputLabel value="ApellidoPaterno:" for="apellidoPaterno" />
-                                        <p:inputText id="apellidoPaterno" value="#{alumnoController.selected.apellidoPaterno}" title="ApellidoPaterno" required="true" requiredMessage="The ApellidoPaterno field is required."/>
-                                        <p:outputLabel value="ApellidoMaterno:" for="apellidoMaterno" />
-                                        <p:inputText id="apellidoMaterno" value="#{alumnoController.selected.apellidoMaterno}" title="ApellidoMaterno" required="true" requiredMessage="The ApellidoMaterno field is required."/>
-
-
-                                    </p:panelGrid>
-                                </h:form>
-                            </f:view>
-
-                        </p:panel>
-                        <p:panel id="basic3" header="Materiales a Prestar" footer="Movie Details" style="margin-bottom:20px">
-
-                        </p:panel>
+                    <p:panel id="tblMaterialSeleccionado" style="margin-bottom:20px; width: 33em;">
+                        <p:dataTable 
+                            paginator="true" 
+                            rows="5" 
+                            value="#{homeController.listaMaterialSeleccionado}" var="item">
+                            <f:facet name="header">
+                                Detalles de prestamo
+                            </f:facet>
+                            <p:column filterBy="#{item.nombre}">
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre"/>
+                                </f:facet>
+                                <h:outputText value="#{item.nombre}"/>
+                            </p:column>
+                            <p:column filterBy="#{item.cantidad}">
+                                <f:facet name="header">
+                                    <h:outputText value="Cantidad"/>
+                                </f:facet>
+                                <h:outputText value="#{item.cantidad}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Accion"/>
+                                </f:facet>
+                                <p:commandButton update=":formAlumnos:tblMaterialSeleccionado" actionListener="#{homeController.agregarMaterial}" value="+">
+                                    <f:setPropertyActionListener value="#{item}" target="#{homeController.materialSeleccionado}" />
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
                         <p:commandLink action="#">
-                            <h:graphicImage name="/img/save-96px.png" />
+                            <h:graphicImage name="/img/save-96px.png" width="50" title="Realizar Prestamo" />
                         </p:commandLink>
-                    </h:panelGrid>
-
-                </p:panel>
+                        <p:commandButton actionListener="#{homeController.limpiarListaMaterialSeleccionado()}" update=":formAlumnos:tblMaterialSeleccionado" value="Limpiar" />
+                    </p:panel>
+                </p:panelGrid>
             </h:form>
         </ui:define>
     </ui:composition>
