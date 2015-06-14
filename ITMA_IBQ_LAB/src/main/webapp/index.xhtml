@@ -19,7 +19,7 @@
 
                             <h:form>
                                 <h1><h:outputText value="Alumnos"/></h1>
-                                <p:dataTable paginator="true" rows="5" value="#{alumnoController.items}" var="item">
+                                <p:dataTable paginator="true" rows="5" value="#{homeController.listaAlumnos}" var="item">
 
                                     <p:column filterBy="#{item.noControl}">
                                         <f:facet name="header">
