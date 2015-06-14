@@ -8,7 +8,7 @@
 
     <ui:composition>
 
-        <p:dialog id="TipoMaterialCreateDlg" widgetVar="TipoMaterialCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTipoMaterialTitle}">
+        <p:dialog id="TipoMaterialCreateDlg" widgetVar="TipoMaterialCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Nueva Carrera">
             <h:form id="TipoMaterialCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tipoMaterialController.selected != null}">
@@ -17,8 +17,8 @@
                         <p:outputLabel value="#{bundle.CreateTipoMaterialLabel_nombreMateria}" for="nombreMateria" />
                         <p:inputText id="nombreMateria" value="#{tipoMaterialController.selected.nombreMateria}" title="#{bundle.CreateTipoMaterialTitle_nombreMateria}" required="true" requiredMessage="#{bundle.CreateTipoMaterialRequiredMessage_nombreMateria}"/>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{tipoMaterialController.create}" value="#{bundle.Save}" update="display,:TipoMaterialListForm:datalist,:growl" oncomplete="handleSubmit(args,'TipoMaterialCreateDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="TipoMaterialCreateDialog.hide()"/>
+                    <p:commandButton actionListener="Guardar" value="#{bundle.Save}" update="display,:TipoMaterialListForm:datalist,:growl" oncomplete="handleSubmit(args,'TipoMaterialCreateDialog');"/>
+                    <p:commandButton value="Cancelar" onclick="TipoMaterialCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

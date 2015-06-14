@@ -8,7 +8,7 @@
 
     <ui:composition>
 
-        <p:dialog id="CarreraEditDlg" widgetVar="CarreraEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditCarreraTitle}">
+        <p:dialog id="CarreraEditDlg" widgetVar="CarreraEditDialog" modal="true" resizable="false" appendTo="@(body)" header="Editar Carrera">
             <h:form id="CarreraEditForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{carreraController.selected != null}">
@@ -17,8 +17,8 @@
                         <p:outputLabel value="#{bundle.EditCarreraLabel_nombreCarrera}" for="nombreCarrera" />
                         <p:inputText id="nombreCarrera" value="#{carreraController.selected.nombreCarrera}" title="#{bundle.EditCarreraTitle_nombreCarrera}" required="true" requiredMessage="#{bundle.EditCarreraRequiredMessage_nombreCarrera}"/>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{carreraController.update}" value="#{bundle.Save}" update="display,:CarreraListForm:datalist,:growl" oncomplete="handleSubmit(args, 'CarreraEditDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="CarreraEditDialog.hide()"/>
+                    <p:commandButton actionListener="#{carreraController.update}" value="Guardar Cambios" update="display,:CarreraListForm:datalist,:growl" oncomplete="handleSubmit(args, 'CarreraEditDialog');"/>
+                    <p:commandButton value="Cancelar" onclick="CarreraEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>
