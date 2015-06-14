@@ -8,7 +8,7 @@
 
     <ui:composition>
 
-        <p:dialog id="AlumnoCreateDlg" widgetVar="AlumnoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateAlumnoTitle}">
+        <p:dialog id="AlumnoCreateDlg" widgetVar="AlumnoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Nuevo Alumno">
             <h:form id="AlumnoCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{alumnoController.selected != null}">
@@ -20,10 +20,6 @@
                         <p:inputText id="apellidoPaterno" value="#{alumnoController.selected.apellidoPaterno}" title="#{bundle.CreateAlumnoTitle_apellidoPaterno}" required="true" requiredMessage="#{bundle.CreateAlumnoRequiredMessage_apellidoPaterno}"/>
                         <p:outputLabel value="#{bundle.CreateAlumnoLabel_apellidoMaterno}" for="apellidoMaterno" />
                         <p:inputText id="apellidoMaterno" value="#{alumnoController.selected.apellidoMaterno}" title="#{bundle.CreateAlumnoTitle_apellidoMaterno}" required="true" requiredMessage="#{bundle.CreateAlumnoRequiredMessage_apellidoMaterno}"/>
-                        <p:outputLabel value="#{bundle.CreateAlumnoLabel_createdAt}" for="createdAt" />
-                        <p:calendar id="createdAt" pattern="MM/dd/yyyy HH:mm:ss" value="#{alumnoController.selected.createdAt}" title="#{bundle.EditAlumnoTitle_createdAt}" required="true" requiredMessage="#{bundle.EditAlumnoRequiredMessage_createdAt}" showOn="button"/>
-                        <p:outputLabel value="#{bundle.CreateAlumnoLabel_updatedAt}" for="updatedAt" />
-                        <p:calendar id="updatedAt" pattern="MM/dd/yyyy HH:mm:ss" value="#{alumnoController.selected.updatedAt}" title="#{bundle.EditAlumnoTitle_updatedAt}" required="true" requiredMessage="#{bundle.EditAlumnoRequiredMessage_updatedAt}" showOn="button"/>
                         <p:outputLabel value="#{bundle.CreateAlumnoLabel_carreraId}" for="carreraId" />
                         <p:selectOneMenu id="carreraId" value="#{alumnoController.selected.carreraId}" required="true" requiredMessage="#{bundle.EditAlumnoRequiredMessage_carreraId}">
                             <f:selectItems value="#{carreraController.itemsAvailableSelectOne}"

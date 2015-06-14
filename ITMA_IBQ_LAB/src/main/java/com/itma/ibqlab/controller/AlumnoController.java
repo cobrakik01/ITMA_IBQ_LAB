@@ -5,6 +5,7 @@ import com.itma.ibqlab.controller.util.JsfUtil;
 import com.itma.ibqlab.controller.util.JsfUtil.PersistAction;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -55,6 +56,10 @@ public class AlumnoController implements Serializable {
     }
 
     public void create() {
+        if (selected != null) {
+            selected.setCreatedAt(new Date());
+            selected.setUpdatedAt(selected.getCreatedAt());
+        }
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("AlumnoCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.

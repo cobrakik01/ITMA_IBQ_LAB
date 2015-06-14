@@ -15,7 +15,7 @@
 
         <ui:define name="body">
             <h:form id="AlumnoListForm">
-                <p:panel header="#{bundle.ListAlumnoTitle}">
+                <p:panel header="Alumnos">
                     <p:dataTable id="datalist" value="#{alumnoController.items}" var="item"
                                  selectionMode="single" selection="#{alumnoController.selected}"
                                  paginator="true"
@@ -27,13 +27,13 @@
                         <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
                         <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
 
-                        <p:column>
+                        <p:column filterBy="#{item.noControl}">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListAlumnoTitle_noControl}"/>
                             </f:facet>
                             <h:outputText value="#{item.noControl}"/>
                         </p:column>
-                        <p:column>
+                        <p:column filterBy="#{item.nombre}">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListAlumnoTitle_nombre}"/>
                             </f:facet>
@@ -71,7 +71,7 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListAlumnoTitle_carreraId}"/>
                             </f:facet>
-                            <h:outputText value="#{item.carreraId}"/>
+                            <h:outputText value="#{item.carreraId.nombreCarrera}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
