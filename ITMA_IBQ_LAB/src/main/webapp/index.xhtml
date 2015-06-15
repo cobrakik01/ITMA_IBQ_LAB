@@ -9,10 +9,11 @@
     <ui:composition template="/template.xhtml">
 
         <ui:define name="body">
-            <h:form id="formAlumnos">
-                <p:growl id="msgs" showDetail="true" />
-                <h1>Prestamos</h1>
+            <p:growl id="msgs" showDetail="true" binding="#{homeController.messageComponent}" />
 
+            <h1>Prestamos</h1>
+            <h:form id="formAlumnos">
+                <p:growl id="msgAlumnos" showDetail="true" />
                 <p:panelGrid columns="2">
                     <p:dataTable 
                         paginator="true" 
@@ -27,7 +28,7 @@
                             Lista de Alumnos
                         </f:facet>
 
-                        <p:ajax event="rowSelect" listener="#{homeController.onRowSelectAlumnos}" update=":formAlumnos:msgs, :formAlumnos:panelDetallesAlumno" />
+                        <p:ajax event="rowSelect" update=":msgs, :formAlumnos:panelDetallesAlumno, :formPrestamos" />
 
                         <p:column filterBy="#{item.noControl}">
                             <f:facet name="header">
@@ -73,21 +74,36 @@
                             <p:inputText id="apellidoMaterno" value="#{homeController.alumnoSeleccionado.apellidoMaterno}" title="ApellidoMaterno" required="true" requiredMessage="The ApellidoMaterno field is required."/>
                         </p:panelGrid>
                     </p:panel>
+                </p:panelGrid>
+            </h:form>
 
+            <h:form id="frmAgregarMaterial">
+                <p:outputLabel value="Cantidad" />
+                <p:inputText value="#{homeController.cantidadMaterial}" required="true" requiredMessage="Es nesesario una cantidad de materiales." converterMessage="Solo coloque valores numericos." validatorMessage="Por favor coloque un numero mayor a cero.">
+                    <f:validateLength minimum="1" />
+                </p:inputText>
+                <p:commandButton update=":msgs, :formPrestamos" disabled="#{homeController.materialSeleccionado.id == null}" value="Agregar" actionListener="#{homeController.agregarMaterial}" ajax="true" />
+            </h:form>
+
+            <h:form id="formPrestamos">
+                <p:panelGrid columns="2">
                     <p:dataTable 
+                        disabledSelection="#{homeController.alumnoSeleccionado.noControl == null}"
                         id="tblListaMaterial"
                         paginator="true" 
                         rows="5" 
                         value="#{homeController.listaMaterial}"
-                        selectionMode="single"
                         var="item"
+                        selectionMode="single"
                         selection="#{homeController.materialSeleccionado}"
                         rowKey="#{item.id}">
 
                         <f:facet name="header">
                             Lista de materiales disponibles
                         </f:facet>
-                        <p:ajax event="rowSelect" update=":formAlumnos:tblListaMaterial" listener="#{homeController.onRowSelectMaterial}" />
+
+                        <p:ajax event="rowSelect" update=":formPrestamos:tblListaMaterial, :frmAgregarMaterial" />
+
                         <p:column filterBy="#{item.nombre}">
                             <f:facet name="header">
                                 <h:outputText value="Nombre"/>
@@ -118,27 +134,33 @@
                             </f:facet>
                             <h:outputText value="#{item.bloqueId.nombreBloque}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Seleccionar"/>
-                            </f:facet>
-
-                            <p:inputText value="#{homeController.cantidadMaterial}">
-                                <p:ajax event="keyup" update="out" listener="#{homeController.handleKeyEventCantidadMaterial}" />
-                            </p:inputText>
-                            <h:outputText id="out" value="#{homeController.cantidadMaterial}" />
-                            <p:commandButton update=":formAlumnos:tblMaterialSeleccionado, :formAlumnos:msgs" ajax="true" actionListener="#{homeController.agregarMaterial}" value="Agregar" />
-                        </p:column>
                     </p:dataTable>
 
                     <p:panel id="tblMaterialSeleccionado" style="margin-bottom:20px; width: 33em;">
+
+
+                        <p:outputLabel for="time" value="Hora de devolucion:" />
+                        <p:calendar id="time" value="#{homeController.prestamo.fechaDevolucion}" pattern="HH:mm a" timeOnly="true">
+                            <p:ajax event="dateSelect" update="btnRealizarPrestamo" />
+                        </p:calendar>
+                        <p:commandButton id="btnRealizarPrestamo" disabled="#{homeController.listaMaterialSeleccionado.size() == 0 or homeController.prestamo.fechaDevolucion == null}" actionListener="#{homeController.realizarPrestamo()}" action="./index.xhtml?faces-redirect=true" ajax="false" value="Realizar Prestamo" />
+                        
+                        <p:commandButton disabled="#{homeController.materialSeleccionadoListaPrestamo == null}" update=":formPrestamos:tblMaterialSeleccionado" actionListener="#{homeController.quitarMaterial}" value="Quitar Material Seleccionado" />
+                        <p:commandButton disabled="#{homeController.listaMaterialSeleccionado.size() == 0}" actionListener="#{homeController.limpiarListaMaterialSeleccionado()}" update=":formPrestamos:tblMaterialSeleccionado" value="Limpiar" />
                         <p:dataTable 
                             paginator="true" 
                             rows="5" 
-                            value="#{homeController.listaMaterialSeleccionado}" var="item">
+                            value="#{homeController.listaMaterialSeleccionado}" 
+                            var="item"
+                            selectionMode="single"
+                            selection="#{homeController.materialSeleccionadoListaPrestamo}"
+                            rowKey="#{item.id}">
                             <f:facet name="header">
                                 Detalles de prestamo
                             </f:facet>
+
+                            <p:ajax event="rowSelect" update=":formPrestamos:tblMaterialSeleccionado" />
+
                             <p:column filterBy="#{item.nombre}">
                                 <f:facet name="header">
                                     <h:outputText value="Nombre"/>
@@ -151,19 +173,10 @@
                                 </f:facet>
                                 <h:outputText value="#{item.cantidad}"/>
                             </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Accion"/>
-                                </f:facet>
-                                <p:commandButton update=":formAlumnos:tblMaterialSeleccionado" actionListener="#{homeController.agregarMaterial}" value="+">
-                                    <f:setPropertyActionListener value="#{item}" target="#{homeController.materialSeleccionado}" />
-                                </p:commandButton>
-                            </p:column>
                         </p:dataTable>
                         <p:commandLink action="#">
                             <h:graphicImage name="/img/save-96px.png" width="50" title="Realizar Prestamo" />
                         </p:commandLink>
-                        <p:commandButton actionListener="#{homeController.limpiarListaMaterialSeleccionado()}" update=":formAlumnos:tblMaterialSeleccionado" value="Limpiar" />
                     </p:panel>
                 </p:panelGrid>
             </h:form>

@@ -47,6 +47,16 @@ public class JsfUtil {
         FacesContext.getCurrentInstance().addMessage(null, facesMsg);
     }
 
+    public static void addWarningMessage(String msg) {
+        FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Cuidado!", msg);
+        FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+    }
+
+    public static void addWarningMessage(String id, String msg) {
+        FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Cuidado!", msg);
+        FacesContext.getCurrentInstance().addMessage(id, facesMsg);
+    }
+
     public static void addSuccessMessage(String msg) {
         FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg);
         FacesContext.getCurrentInstance().addMessage("successInfo", facesMsg);

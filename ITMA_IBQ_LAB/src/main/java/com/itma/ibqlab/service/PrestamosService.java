@@ -6,16 +6,22 @@
 package com.itma.ibqlab.service;
 
 import com.itma.ibqlab.controller.AlumnoFacade;
+import com.itma.ibqlab.controller.MaterialFacade;
 import com.itma.ibqlab.controller.PrestamoFacade;
 import com.itma.ibqlab.controller.ProfesorFacade;
 import com.itma.ibqlab.entity.Alumno;
+import com.itma.ibqlab.entity.Material;
 import com.itma.ibqlab.entity.MaterialPrestamo;
+import com.itma.ibqlab.entity.MaterialPrestamoPK;
 import com.itma.ibqlab.entity.Prestamo;
 import com.itma.ibqlab.entity.Profesor;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
 
 /**
  *
@@ -33,6 +39,12 @@ public class PrestamosService implements PrestamosServiceLocal {
     @EJB
     private ProfesorFacade profesoresFacade;
 
+    @EJB
+    private MaterialFacade materialFacade;
+
+    @PersistenceContext(unitName = "com.itma_ITMA_IBQ_LAB_war_1.0PU")
+    private EntityManager em;
+
     private PrestamoFacade getPrestamosFacade() {
         return prestamosFacade;
     }
@@ -47,13 +59,9 @@ public class PrestamosService implements PrestamosServiceLocal {
 
     @Override
     public void hacerPrestamo(Profesor profesor, Alumno alumno, Prestamo prestamo, List<MaterialPrestamo> listaMaterialPrestamo) throws AlumntoNotFoundException, PrestamoException, ProfesorNotfoundException {
-        Alumno result = getAlumnosFacade().find(alumno.getNoControl());
-
-        if (result == null) {
+        Alumno alumnoResult = getAlumnosFacade().find(alumno.getNoControl());
+        if (alumnoResult == null) {
             throw new AlumntoNotFoundException();
-        }
-        if (profesor == null || getProfesoresFacade().find(profesor.getId()) == null) {
-            throw new ProfesorNotfoundException();
         }
         if (prestamo == null) {
             throw new PrestamoException("No fue posible crear el prestamo, verifique que los datos se ingresen correctamente.");
@@ -64,9 +72,42 @@ public class PrestamosService implements PrestamosServiceLocal {
 
         prestamo.setAlumnoNoControl(alumno);
         prestamo.setFechaPrestamo(new Date());
-        prestamo.setMaterialPrestamoList(listaMaterialPrestamo);
         prestamo.setProfesorId(profesor);
-        getPrestamosFacade().create(prestamo);
+        prestamosFacade.create(prestamo);
+
+        for (MaterialPrestamo mp : listaMaterialPrestamo) {
+            mp.setMaterialPrestamoPK(new MaterialPrestamoPK(prestamo.getId(), mp.getMaterial().getId()));
+        }
+        prestamo.setMaterialPrestamoList(listaMaterialPrestamo);
+        prestamosFacade.edit(prestamo);
+
+        for (MaterialPrestamo mp : listaMaterialPrestamo) {
+            Material materialResult = mp.getMaterial();
+            materialResult.setCantidadDisponible(materialResult.getCantidadDisponible() - mp.getCantidad());
+            materialFacade.edit(materialResult);
+        }
+
     }
 
+    @Override
+    public void hacerPrestamo(Alumno alumno, Prestamo prestamo, List<MaterialPrestamo> listaMaterialPrestamo) throws AlumntoNotFoundException, PrestamoException, ProfesorNotfoundException {
+        hacerPrestamo(null, alumno, prestamo, listaMaterialPrestamo);
+    }
+
+
+    /*
+     @Override
+     public void hacerPrestamo(Alumno alumno, Prestamo prestamo, List<Material> listaMaterialPrestamo) throws AlumntoNotFoundException, PrestamoException, ProfesorNotfoundException {
+     Alumno alumnoResult = getAlumnosFacade().find(alumno.getNoControl());
+     if (alumnoResult == null) {
+     throw new AlumntoNotFoundException();
+     }
+     if (prestamo == null) {
+     throw new PrestamoException("No fue posible crear el prestamo, verifique que los datos se ingresen correctamente.");
+     }
+     if (listaMaterialPrestamo.size() <= 0) {
+     throw new PrestamoException("No es posiblre realizar un prestamo sin ningun material.");
+     }
+     }
+     */
 }

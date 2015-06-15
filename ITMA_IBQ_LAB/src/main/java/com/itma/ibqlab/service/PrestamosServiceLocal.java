@@ -6,6 +6,7 @@
 package com.itma.ibqlab.service;
 
 import com.itma.ibqlab.entity.Alumno;
+import com.itma.ibqlab.entity.Material;
 import com.itma.ibqlab.entity.MaterialPrestamo;
 import com.itma.ibqlab.entity.Prestamo;
 import com.itma.ibqlab.entity.Profesor;
@@ -20,4 +21,7 @@ import javax.ejb.Local;
 public interface PrestamosServiceLocal {
 
     void hacerPrestamo(Profesor profesor, Alumno alumno, Prestamo prestamo, List<MaterialPrestamo> listaMaterialPrestamo) throws AlumntoNotFoundException, PrestamoException, ProfesorNotfoundException;
+
+    void hacerPrestamo(Alumno alumno, Prestamo prestamo, List<MaterialPrestamo> listaMaterialPrestamo) throws AlumntoNotFoundException, PrestamoException, ProfesorNotfoundException;
+    /// void hacerPrestamo(Alumno alumno, Prestamo prestamo, List<Material> listaMaterialPrestamo) throws AlumntoNotFoundException, PrestamoException, ProfesorNotfoundException;
 }
