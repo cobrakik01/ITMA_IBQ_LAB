@@ -144,7 +144,7 @@
                             <p:ajax event="dateSelect" update="btnRealizarPrestamo" />
                         </p:calendar>
                         <p:commandButton id="btnRealizarPrestamo" disabled="#{homeController.listaMaterialSeleccionado.size() == 0 or homeController.prestamo.fechaDevolucion == null}" actionListener="#{homeController.realizarPrestamo()}" action="./index.xhtml?faces-redirect=true" ajax="false" value="Realizar Prestamo" />
-                        
+
                         <p:commandButton disabled="#{homeController.materialSeleccionadoListaPrestamo == null}" update=":formPrestamos:tblMaterialSeleccionado" actionListener="#{homeController.quitarMaterial}" value="Quitar Material Seleccionado" />
                         <p:commandButton disabled="#{homeController.listaMaterialSeleccionado.size() == 0}" actionListener="#{homeController.limpiarListaMaterialSeleccionado()}" update=":formPrestamos:tblMaterialSeleccionado" value="Limpiar" />
                         <p:dataTable 
@@ -174,11 +174,54 @@
                                 <h:outputText value="#{item.cantidad}"/>
                             </p:column>
                         </p:dataTable>
-                        <p:commandLink action="#">
-                            <h:graphicImage name="/img/save-96px.png" width="50" title="Realizar Prestamo" />
-                        </p:commandLink>
                     </p:panel>
                 </p:panelGrid>
+            </h:form>
+
+            <h:form id="frmDeudores">
+                <p:dataTable 
+                    paginator="true" 
+                    rows="5" 
+                    value="#{homeController.listaDeudores}" 
+                    var="item">
+                    <f:facet name="header">
+                        Deudores
+                    </f:facet>
+
+                    <!--
+                    <p:ajax event="rowSelect" update=":formPrestamos:tblMaterialSeleccionado" />
+                    -->
+                    <p:column filterBy="#{item.numeroControl}">
+                        <f:facet name="header">
+                            <h:outputText value="Alumno"/>
+                        </f:facet>
+                        <h:outputText value="#{item.numeroControl}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.alumno}">
+                        <f:facet name="header">
+                            <h:outputText value="Alumno"/>
+                        </f:facet>
+                        <h:outputText value="#{item.alumno}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.carrera}">
+                        <f:facet name="header">
+                            <h:outputText value="Carrera"/>
+                        </f:facet>
+                        <h:outputText value="#{item.carrera}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.fechaPrestamo}">
+                        <f:facet name="header">
+                            <h:outputText value="Fecha de prestamo"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaPrestamo}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.fechaDevolucionProgramada}">
+                        <f:facet name="header">
+                            <h:outputText value="Fecha de programada de devolucion"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaDevolucionProgramada}"/>
+                    </p:column>
+                </p:dataTable>
             </h:form>
         </ui:define>
     </ui:composition>

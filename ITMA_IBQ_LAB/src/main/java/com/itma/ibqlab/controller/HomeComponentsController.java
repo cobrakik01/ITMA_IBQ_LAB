@@ -9,6 +9,7 @@ import com.itma.ibqlab.entity.Alumno;
 import com.itma.ibqlab.entity.Material;
 import com.itma.ibqlab.entity.MaterialPrestamo;
 import com.itma.ibqlab.entity.Prestamo;
+import com.itma.ibqlab.entity.ViewDeudores;
 import com.itma.ibqlab.service.PrestamosServiceLocal;
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -28,6 +29,8 @@ public class HomeComponentsController implements Serializable {
     private MaterialFacade materialFacade;
     @EJB
     private PrestamosServiceLocal prestamoService;
+    @EJB
+    private ViewDeudoresFacade deudoresFacade;
 
     private List<Alumno> listaAlumnos;
     private List<Material> listaMaterial;
@@ -38,12 +41,18 @@ public class HomeComponentsController implements Serializable {
     private int cantidadMaterial = 1;
     private UIComponent messageComponent;
     private Prestamo prestamo;
+    private List<ViewDeudores> listaDeudores;
 
     public HomeComponentsController() {
         alumnoSeleccionado = new Alumno();
         materialSeleccionado = new Material();
         prestamo = new Prestamo();
         listaMaterialSeleccionado = new LinkedList<>();
+    }
+
+    public List<ViewDeudores> getListaDeudores() {
+        listaDeudores = deudoresFacade.findAll();
+        return listaDeudores;
     }
 
     public Prestamo getPrestamo() {
