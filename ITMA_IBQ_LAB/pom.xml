@@ -37,12 +37,12 @@
             <version>2.5.2</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>com.itma</groupId>
             <artifactId>ITMA_IBQ_LAB</artifactId>
             <version>1.0</version>
             <scope>provided</scope>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>

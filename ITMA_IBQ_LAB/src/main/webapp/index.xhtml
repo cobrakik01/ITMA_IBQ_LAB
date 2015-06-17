@@ -9,20 +9,21 @@
     <ui:composition template="/template.xhtml">
 
         <ui:define name="body">
-            <p:growl id="msgs" showDetail="true" binding="#{homeController.messageComponent}" />
+            <p:growl id="msgs" showDetail="true" />
 
             <h1>Prestamos</h1>
-            <h:form id="formAlumnos">
+            <h:form id="formAlumnos" >
                 <p:growl id="msgAlumnos" showDetail="true" />
                 <p:panelGrid columns="2">
                     <p:dataTable 
                         paginator="true" 
-                        rows="5" 
+                        rows="2" 
                         value="#{homeController.listaAlumnos}" 
                         selectionMode="single"
                         var="item"
                         selection="#{homeController.alumnoSeleccionado}"
-                        rowKey="#{item.noControl}">
+                        rowKey="#{item.noControl}" 
+                        style="width: 33em;" >
 
                         <f:facet name="header">
                             Lista de Alumnos
@@ -41,25 +42,6 @@
                                 <h:outputText value="Nombre" />
                             </f:facet>
                             <h:outputText value="#{item.nombre}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="ApellidoPaterno"/>
-                            </f:facet>
-                            <h:outputText value="#{item.apellidoPaterno}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="ApellidoMaterno"/>
-                            </f:facet>
-                            <h:outputText value="#{item.apellidoMaterno}"/>
-                        </p:column>
-
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="CarreraId"/>
-                            </f:facet>
-                            <h:outputText value="#{item.carreraId.nombreCarrera}"/>
                         </p:column>
                     </p:dataTable>
                     <p:panel id="panelDetallesAlumno" header="Datos del Alumno" style="margin-bottom:20px">
@@ -179,21 +161,31 @@
             </h:form>
 
             <h:form id="frmDeudores">
+                <p:commandButton 
+                    actionListener="#{homeController.cargarListaPrestamoDeudores()}" 
+                    update=":frmDeudores:tblPrestamosDeudor" 
+                    value="Ver Detalle de Compra" 
+                    onclick="PF('dlg1').show();"/>
                 <p:dataTable 
                     paginator="true" 
                     rows="5" 
                     value="#{homeController.listaDeudores}" 
-                    var="item">
+                    var="item"
+                    selectionMode="single"
+                    selection="#{homeController.deudor}"
+                    rowKey="#{item.numeroControl}"
+                    >
+
                     <f:facet name="header">
                         Deudores
                     </f:facet>
 
-                    <!--
+
                     <p:ajax event="rowSelect" update=":formPrestamos:tblMaterialSeleccionado" />
-                    -->
-                    <p:column filterBy="#{item.numeroControl}">
+
+                    <p:column filterBy="#{item}">
                         <f:facet name="header">
-                            <h:outputText value="Alumno"/>
+                            <h:outputText value="Numero de control"/>
                         </f:facet>
                         <h:outputText value="#{item.numeroControl}"/>
                     </p:column>
@@ -209,20 +201,60 @@
                         </f:facet>
                         <h:outputText value="#{item.carrera}"/>
                     </p:column>
-                    <p:column filterBy="#{item.fechaPrestamo}">
+                    <p:column filterBy="#{item.noPrestamos}">
                         <f:facet name="header">
-                            <h:outputText value="Fecha de prestamo"/>
+                            <h:outputText value="Prestamos"/>
                         </f:facet>
-                        <h:outputText value="#{item.fechaPrestamo}"/>
+                        <h:outputText value="#{item.noPrestamos}"/>
                     </p:column>
-                    <p:column filterBy="#{item.fechaDevolucionProgramada}">
-                        <f:facet name="header">
-                            <h:outputText value="Fecha de programada de devolucion"/>
-                        </f:facet>
-                        <h:outputText value="#{item.fechaDevolucionProgramada}"/>
-                    </p:column>
+
                 </p:dataTable>
+
+                <p:dialog  width="60em" header="Detalle Prestamo" widgetVar="dlg1" minHeight="80">
+                    <p:panelGrid columns="2">
+                        <p:panel>
+                            <p:dataTable
+                                id="tblPrestamosDeudor"
+                                value="#{homeController.listaPrestamosDeudor}" 
+                                var="prestamo"
+                                >
+                                <f:facet name="header">
+                                    Materiales en Deuda
+                                </f:facet>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="IdPrestamo"/>
+                                    </f:facet>
+                                    <h:outputText value="#{prestamo.id}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Alumno"/>
+                                    </f:facet>
+                                    <h:outputText value="#{prestamo.alumnoNoControl}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Fecha de Prestamo"/>
+                                    </f:facet>
+                                    <h:outputText value="#{prestamo.fechaPrestamo}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="F.DevolucionProgramada"/>
+                                    </f:facet>
+                                    <h:outputText value="#{prestamo.fechaDevolucion}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                        <p:panel>
+                            detalle
+                        </p:panel>
+                    </p:panelGrid>
+
+                </p:dialog>
             </h:form>
+
         </ui:define>
     </ui:composition>
 </html>

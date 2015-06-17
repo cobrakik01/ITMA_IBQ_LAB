@@ -16,12 +16,13 @@ import com.itma.ibqlab.entity.MaterialPrestamoPK;
 import com.itma.ibqlab.entity.Prestamo;
 import com.itma.ibqlab.entity.Profesor;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -110,4 +111,24 @@ public class PrestamosService implements PrestamosServiceLocal {
      }
      }
      */
+    @Override
+    public List<Prestamo> findByNoControl(String numeroControl) {
+        return this.findByNoControl(numeroControl, true);
+    }
+
+    @Override
+    public List<Prestamo> findByNoControl(String numeroControl, boolean deudor) {
+        if (deudor) {
+            System.out.println("Numero de control desde el service: " + numeroControl);
+            return prestamosFacade
+                    .getEntityManager()
+                    .createNamedQuery("Prestamo.findByNoControlAndNoDevolution")
+                    .setParameter("noControl", numeroControl)
+                    .getResultList();
+        }
+        return prestamosFacade
+                .getEntityManager()
+                .createNamedQuery("Prestamo.findByNoControl")
+                .setParameter("noControl", numeroControl).getResultList();
+    }
 }

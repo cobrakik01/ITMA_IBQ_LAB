@@ -8,9 +8,8 @@ package com.itma.ibqlab.controller;
 import com.itma.ibqlab.controller.util.JsfUtil;
 import com.itma.ibqlab.entity.Material;
 import com.itma.ibqlab.entity.MaterialPrestamo;
-import com.itma.ibqlab.entity.MaterialPrestamoPK;
-import static com.itma.ibqlab.entity.MaterialPrestamo_.prestamo;
 import com.itma.ibqlab.entity.Prestamo;
+import com.itma.ibqlab.entity.ViewDeudor;
 import com.itma.ibqlab.service.AlumntoNotFoundException;
 import com.itma.ibqlab.service.PrestamoException;
 import com.itma.ibqlab.service.ProfesorNotfoundException;
@@ -20,8 +19,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
 
 /**
@@ -110,6 +107,16 @@ public class HomeController extends HomeComponentsController implements Serializ
             ex.printStackTrace();
             JsfUtil.addErrorMessage(ex, "No fue posible realizar el prestamo.");
         }
+    }
+
+    public void cargarListaPrestamoDeudores() {
+        ViewDeudor vd = this.getDeudor();
+
+        if (vd != null) {
+            List<Prestamo> lista = this.prestamoService.findByNoControl(vd.getNumeroControl(), true);
+            this.setListaPrestamosDeudor(lista);
+        }
+
     }
 
 }

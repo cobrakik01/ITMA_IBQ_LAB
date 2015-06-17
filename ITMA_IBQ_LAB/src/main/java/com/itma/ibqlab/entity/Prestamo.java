@@ -43,8 +43,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Prestamo.findByFechaDevolucion", query = "SELECT p FROM Prestamo p WHERE p.fechaDevolucion = :fechaDevolucion"),
     @NamedQuery(name = "Prestamo.findByFechaDevolucionReal", query = "SELECT p FROM Prestamo p WHERE p.fechaDevolucionReal = :fechaDevolucionReal"),
     @NamedQuery(name = "Prestamo.findByObservacionesPrestamo", query = "SELECT p FROM Prestamo p WHERE p.observacionesPrestamo = :observacionesPrestamo"),
-    @NamedQuery(name = "Prestamo.findByObservacionesDevolucion", query = "SELECT p FROM Prestamo p WHERE p.observacionesDevolucion = :observacionesDevolucion")})
+    @NamedQuery(name = "Prestamo.findByObservacionesDevolucion", query = "SELECT p FROM Prestamo p WHERE p.observacionesDevolucion = :observacionesDevolucion"),
+    @NamedQuery(name = "Prestamo.findByNoControlAndNoDevolution", query = "SELECT p FROM Prestamo p WHERE p.alumnoNoControl.noControl = :noControl AND p.fechaDevolucionReal IS NULL"),
+    @NamedQuery(name = "Prestamo.findByNoControl", query = "SELECT p FROM Prestamo p WHERE p.alumnoNoControl.noControl = :noControl AND p.fechaDevolucionReal IS NULL")})
 public class Prestamo implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -189,5 +192,5 @@ public class Prestamo implements Serializable {
     public String toString() {
         return "com.itma.ibqlab.entity.Prestamo[ id=" + id + " ]";
     }
-    
+
 }

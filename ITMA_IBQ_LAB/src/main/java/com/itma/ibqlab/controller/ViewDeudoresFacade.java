@@ -5,8 +5,7 @@
  */
 package com.itma.ibqlab.controller;
 
-import com.itma.ibqlab.entity.Alumno;
-import com.itma.ibqlab.entity.ViewDeudores;
+import com.itma.ibqlab.entity.ViewDeudor;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,7 +15,8 @@ import javax.persistence.PersistenceContext;
  * @author cobrakik
  */
 @Stateless
-public class ViewDeudoresFacade extends AbstractFacade<ViewDeudores> {
+public class ViewDeudoresFacade extends AbstractFacade<ViewDeudor> {
+
     @PersistenceContext(unitName = "com.itma_ITMA_IBQ_LAB_war_1.0PU")
     private EntityManager em;
 
@@ -26,7 +26,7 @@ public class ViewDeudoresFacade extends AbstractFacade<ViewDeudores> {
     }
 
     public ViewDeudoresFacade() {
-        super(ViewDeudores.class);
+        super(ViewDeudor.class);
     }
-    
+
 }

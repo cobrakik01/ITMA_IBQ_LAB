@@ -24,4 +24,8 @@ public interface PrestamosServiceLocal {
 
     void hacerPrestamo(Alumno alumno, Prestamo prestamo, List<MaterialPrestamo> listaMaterialPrestamo) throws AlumntoNotFoundException, PrestamoException, ProfesorNotfoundException;
     /// void hacerPrestamo(Alumno alumno, Prestamo prestamo, List<Material> listaMaterialPrestamo) throws AlumntoNotFoundException, PrestamoException, ProfesorNotfoundException;
+
+    public List<Prestamo> findByNoControl(String numeroControl);
+
+    public List<Prestamo> findByNoControl(String numeroControl, boolean deudor);
 }

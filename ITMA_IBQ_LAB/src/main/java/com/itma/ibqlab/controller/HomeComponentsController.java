@@ -9,7 +9,7 @@ import com.itma.ibqlab.entity.Alumno;
 import com.itma.ibqlab.entity.Material;
 import com.itma.ibqlab.entity.MaterialPrestamo;
 import com.itma.ibqlab.entity.Prestamo;
-import com.itma.ibqlab.entity.ViewDeudores;
+import com.itma.ibqlab.entity.ViewDeudor;
 import com.itma.ibqlab.service.PrestamosServiceLocal;
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -24,13 +24,13 @@ import javax.faces.component.UIComponent;
 public class HomeComponentsController implements Serializable {
 
     @EJB
-    private AlumnoFacade alumnoFacade;
+    protected AlumnoFacade alumnoFacade;
     @EJB
-    private MaterialFacade materialFacade;
+    protected MaterialFacade materialFacade;
     @EJB
-    private PrestamosServiceLocal prestamoService;
+    protected PrestamosServiceLocal prestamoService;
     @EJB
-    private ViewDeudoresFacade deudoresFacade;
+    protected ViewDeudoresFacade deudoresFacade;
 
     private List<Alumno> listaAlumnos;
     private List<Material> listaMaterial;
@@ -41,7 +41,25 @@ public class HomeComponentsController implements Serializable {
     private int cantidadMaterial = 1;
     private UIComponent messageComponent;
     private Prestamo prestamo;
-    private List<ViewDeudores> listaDeudores;
+    private List<ViewDeudor> listaDeudores;
+    private ViewDeudor deudor;
+    private List<Prestamo> listaPrestamosDeudor;
+
+    public List<Prestamo> getListaPrestamosDeudor() {
+        return listaPrestamosDeudor;
+    }
+
+    public void setListaPrestamosDeudor(List<Prestamo> listaPrestamosDeudor) {
+        this.listaPrestamosDeudor = listaPrestamosDeudor;
+    }
+
+    public ViewDeudor getDeudor() {
+        return deudor;
+    }
+
+    public void setDeudor(ViewDeudor deudor) {
+        this.deudor = deudor;
+    }
 
     public HomeComponentsController() {
         alumnoSeleccionado = new Alumno();
@@ -50,7 +68,7 @@ public class HomeComponentsController implements Serializable {
         listaMaterialSeleccionado = new LinkedList<>();
     }
 
-    public List<ViewDeudores> getListaDeudores() {
+    public List<ViewDeudor> getListaDeudores() {
         listaDeudores = deudoresFacade.findAll();
         return listaDeudores;
     }
