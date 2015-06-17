@@ -160,12 +160,86 @@
                 </p:panelGrid>
             </h:form>
 
-            <h:form id="frmDeudores">
+            <h:form id="frmBotonesDetallesPrestamo">
                 <p:commandButton 
+                    id="btnAbrirDlgDetallesPrestamoDeudores"
+                    disabled="#{homeController.deudor eq null}"
                     actionListener="#{homeController.cargarListaPrestamoDeudores()}" 
-                    update=":frmDeudores:tblPrestamosDeudor" 
+                    update="@this:dlgDetallesPrestamoDeudor" 
                     value="Ver Detalle de Compra" 
-                    onclick="PF('dlg1').show();"/>
+                    onclick="PF('wdDlgDetallesPrestamosDeudores').show();"/>
+
+                <p:dialog header="Detalles de prestamos" widgetVar="wdDlgDetallesPrestamosDeudores" width="800">
+                    
+                    <p:commandButton value="Devolver" />
+                    
+                    <h:panelGrid 
+                        cellpadding="5"
+                        columns="2" 
+                        id="dlgDetallesPrestamoDeudor">
+
+                        <p:dataTable
+                            id="tblPrestamosDeudor"
+                            paginator="true" 
+                            rows="5" 
+                            value="#{homeController.listaPrestamosDeudor}" 
+                            var="prestamo"
+                            selectionMode="single"
+                            selection="#{homeController.prestamoDeudorSeleccionado}"
+                            rowKey="#{prestamo.id}">
+                            
+                            <p:ajax event="rowSelect" listener="#{homeController.cargarMaterialesPrestamoDeudor}" update=":frmBotonesDetallesPrestamo:tblMaterialesPrestamoDeudor" />
+
+                            <f:facet name="header">
+                                Prestamos de #{homeController.deudor.alumno}
+                            </f:facet>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Alumno"/>
+                                </f:facet>
+                                <h:outputText value="#{prestamo.alumnoNoControl}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Fecha de Prestamo"/>
+                                </f:facet>
+                                <h:outputText value="#{prestamo.fechaPrestamo}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Fecha de devolucion programada"/>
+                                </f:facet>
+                                <h:outputText value="#{prestamo.fechaDevolucion}"/>
+                            </p:column>
+                        </p:dataTable>
+
+                        <p:dataTable
+                            id="tblMaterialesPrestamoDeudor"
+                            paginator="true" 
+                            rows="5" 
+                            value="#{homeController.listaMaterialesPrestamoDeudor}" 
+                            var="material">
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre"/>
+                                </f:facet>
+                                <h:outputText value="#{material.nombre}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Fecha de Prestamo"/>
+                                </f:facet>
+                                <h:outputText value="#{material.cantidad}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>
+                </p:dialog>
+            </h:form>
+
+            <h:form id="frmDeudores">
+
                 <p:dataTable 
                     paginator="true" 
                     rows="5" 
@@ -173,15 +247,14 @@
                     var="item"
                     selectionMode="single"
                     selection="#{homeController.deudor}"
-                    rowKey="#{item.numeroControl}"
-                    >
+                    rowKey="#{item.numeroControl}">
 
                     <f:facet name="header">
                         Deudores
                     </f:facet>
 
 
-                    <p:ajax event="rowSelect" update=":formPrestamos:tblMaterialSeleccionado" />
+                    <p:ajax event="rowSelect" update=":frmDeudores, :frmBotonesDetallesPrestamo:btnAbrirDlgDetallesPrestamoDeudores" />
 
                     <p:column filterBy="#{item}">
                         <f:facet name="header">
@@ -209,50 +282,6 @@
                     </p:column>
 
                 </p:dataTable>
-
-                <p:dialog  width="60em" header="Detalle Prestamo" widgetVar="dlg1" minHeight="80">
-                    <p:panelGrid columns="2">
-                        <p:panel>
-                            <p:dataTable
-                                id="tblPrestamosDeudor"
-                                value="#{homeController.listaPrestamosDeudor}" 
-                                var="prestamo"
-                                >
-                                <f:facet name="header">
-                                    Materiales en Deuda
-                                </f:facet>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="IdPrestamo"/>
-                                    </f:facet>
-                                    <h:outputText value="#{prestamo.id}"/>
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Alumno"/>
-                                    </f:facet>
-                                    <h:outputText value="#{prestamo.alumnoNoControl}"/>
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Fecha de Prestamo"/>
-                                    </f:facet>
-                                    <h:outputText value="#{prestamo.fechaPrestamo}"/>
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="F.DevolucionProgramada"/>
-                                    </f:facet>
-                                    <h:outputText value="#{prestamo.fechaDevolucion}"/>
-                                </p:column>
-                            </p:dataTable>
-                        </p:panel>
-                        <p:panel>
-                            detalle
-                        </p:panel>
-                    </p:panelGrid>
-
-                </p:dialog>
             </h:form>
 
         </ui:define>

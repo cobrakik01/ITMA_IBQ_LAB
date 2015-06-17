@@ -119,7 +119,6 @@ public class PrestamosService implements PrestamosServiceLocal {
     @Override
     public List<Prestamo> findByNoControl(String numeroControl, boolean deudor) {
         if (deudor) {
-            System.out.println("Numero de control desde el service: " + numeroControl);
             return prestamosFacade
                     .getEntityManager()
                     .createNamedQuery("Prestamo.findByNoControlAndNoDevolution")

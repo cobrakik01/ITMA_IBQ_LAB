@@ -31,6 +31,8 @@ public class HomeComponentsController implements Serializable {
     protected PrestamosServiceLocal prestamoService;
     @EJB
     protected ViewDeudoresFacade deudoresFacade;
+    @EJB
+    protected MaterialesPrestamoFacade materialesPrestamoService;
 
     private List<Alumno> listaAlumnos;
     private List<Material> listaMaterial;
@@ -44,6 +46,24 @@ public class HomeComponentsController implements Serializable {
     private List<ViewDeudor> listaDeudores;
     private ViewDeudor deudor;
     private List<Prestamo> listaPrestamosDeudor;
+    private Prestamo prestamoDeudorSeleccionado;
+    private List<WrapperMaterial> listaMaterialesPrestamoDeudor;
+
+    public List<WrapperMaterial> getListaMaterialesPrestamoDeudor() {
+        return listaMaterialesPrestamoDeudor;
+    }
+
+    public void setListaMaterialesPrestamoDeudor(List<WrapperMaterial> listaMaterialesPrestamoDeudor) {
+        this.listaMaterialesPrestamoDeudor = listaMaterialesPrestamoDeudor;
+    }
+
+    public Prestamo getPrestamoDeudorSeleccionado() {
+        return prestamoDeudorSeleccionado;
+    }
+
+    public void setPrestamoDeudorSeleccionado(Prestamo prestamoDeudorSeleccionado) {
+        this.prestamoDeudorSeleccionado = prestamoDeudorSeleccionado;
+    }
 
     public List<Prestamo> getListaPrestamosDeudor() {
         return listaPrestamosDeudor;

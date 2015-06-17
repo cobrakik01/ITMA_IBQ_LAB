@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import javax.faces.view.ViewScoped;
+import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -110,13 +111,28 @@ public class HomeController extends HomeComponentsController implements Serializ
     }
 
     public void cargarListaPrestamoDeudores() {
+        this.setListaMaterialesPrestamoDeudor(new LinkedList<WrapperMaterial>());
         ViewDeudor vd = this.getDeudor();
-
         if (vd != null) {
             List<Prestamo> lista = this.prestamoService.findByNoControl(vd.getNumeroControl(), true);
             this.setListaPrestamosDeudor(lista);
         }
+    }
 
+    public void cargarMaterialesPrestamoDeudor(SelectEvent event) {
+        Prestamo prestamo = (Prestamo) event.getObject();
+        if (prestamo != null) {
+            List<MaterialPrestamo> lista = this.materialesPrestamoService.findByPrestamoId(prestamo.getId());
+            List<WrapperMaterial> lstWrapperMaterial = new LinkedList<>();
+            for (MaterialPrestamo mp : lista) {
+                WrapperMaterial wm = new WrapperMaterial();
+                wm.setCantidad(mp.getCantidad());
+                wm.setMaterial(mp.getMaterial());
+                wm.setNombre(mp.getMaterial().getNombre());
+                lstWrapperMaterial.add(wm);
+            }
+            this.setListaMaterialesPrestamoDeudor(lstWrapperMaterial);
+        }
     }
 
 }
